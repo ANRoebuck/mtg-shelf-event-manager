@@ -1,4 +1,4 @@
-const { Event } = require('./Event');
+const {Event} = require('./Event');
 
 class EventManager {
 
@@ -12,22 +12,17 @@ class EventManager {
 
   eventExists = (eventId) => this.getEventById(eventId) !== null;
 
-  createEvent = (eventId) => this.eventExists(eventId) || this.events.push(new Event(eventId));
-
-  addPlayers = (eventId, numberOfPlayers) => {
-    if (this.eventExists(eventId)) {
-      this.getEventById(eventId).addPlayers(numberOfPlayers);
-    }
-  };
+  createEvent = (eventId, numberOfPlayers) =>
+    this.eventExists(eventId) || this.events.push(new Event(eventId, numberOfPlayers));
 
   getPlayers = (eventId) => {
-    if(this.eventExists(eventId)) {
+    if (this.eventExists(eventId)) {
       return this.getEventById(eventId).getPlayers();
     }
   };
 
   getNumberOfPlayers = (eventId) => {
-    if(this.eventExists(eventId)) {
+    if (this.eventExists(eventId)) {
       return this.getEventById(eventId).getNumberOfPlayers();
     }
   };
