@@ -1,3 +1,4 @@
+const { Bye } = require('./Player');
 
 class Match {
 
@@ -8,6 +9,16 @@ class Match {
     this.result = null;
     player1.addMatch(this);
     player2.addMatch(this);
+    this.autoCompleteBye();
+  }
+
+  autoCompleteBye = () => {
+    if (this.player1 instanceof Bye) {
+      this.recordWinner(this.player2);
+    }
+    if (this.player2 instanceof Bye) {
+      this.recordWinner(this.player1);
+    }
   }
 
   isComplete = () => this.complete;

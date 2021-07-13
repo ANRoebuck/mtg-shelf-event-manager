@@ -1,6 +1,6 @@
-const {randomElementFromArray} = require("./utils");
-const {Match} = require('./Match');
-const {Player, Bye} = require('./Player');
+const { randomElementFromArray } = require("./utils");
+const { Match } = require('./Match');
+const { Bye } = require('./Player');
 
 
 class Round {
@@ -16,13 +16,17 @@ class Round {
 
   getPlayers = () => this.players;
 
-  getRankedPlayers = () => this.getPlayers().sort((a, b) => b.getPoints() - a.getPoints());
+  getRankedPlayers = () => this.getPlayers().sort((a, b) => a.getPoints() - b.getPoints());
+
+  getPairings = () => this.pairings;
 
   setUp = () => {
     let rankedPlayers = [...this.getRankedPlayers()];
 
+    console.log(rankedPlayers);
+
     if (rankedPlayers.length % 2 === 1) {
-      rankedPlayers = this.assignBye();
+      rankedPlayers = this.assignBye(rankedPlayers);
     }
 
     while(rankedPlayers.length > 0) {
@@ -30,7 +34,7 @@ class Round {
 
       let targetPoints = playerToPair.getPoints();
       let potentialOpponents = [];
-      while (potentialOpponents.length === 0 && targetPoints >= 0) {
+      while (potentialOpponents.length === 0 && targetPoints > -1) {
         potentialOpponents = rankedPlayers
           .filter(player => player.getPoints() === targetPoints)
           .filter(player => !player.previousOpponentOf(playerToPair));
@@ -49,8 +53,19 @@ class Round {
 
   }
 
+  pairRound = () => {
+
+    // create graph of players
+
+    // eliminate any impossible pairings (already played each other)
+
+    // check if for any player, only one possible pairing remains
+    //    --> pair that
+
+  }
+
   assignBye = (rankedPlayers) => {
-    rankedPlayers.reverse().any((p, i) => {
+    rankedPlayers.some((p, i) => {
       if (!p.hasHadBye()) {
         let playerToReceiveBye = rankedPlayers.splice(i, 1)[0];
         this.createPairing(playerToReceiveBye, new Bye());
@@ -63,7 +78,7 @@ class Round {
 
   createPairing = (player1, player2) => this.pairings.push(new Match(player1, player2));
 
-  isComplete = () => this.pairings.every(p => p.isComplete());
+  isComplete = () => this.getPairings().every(p => p.isComplete());
 }
 
 module.exports = {

@@ -48,4 +48,11 @@ describe('player', () => {
     expect(match.getResult()).toBe("DRAW");
   });
 
+  it('automatically completes byes', () => {
+    match = new Match(player1, new Bye());
+
+    expect(match.isComplete()).toBe(true);
+    expect(match.getResult()).toBe(player1.getPlayerId());
+  });
+
 });

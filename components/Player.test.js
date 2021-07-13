@@ -20,11 +20,13 @@ describe('player', () => {
   it('has a playerId', () => {
     const playerId = 12345;
     const player = new Player(playerId);
+
     expect(player.getPlayerId()).toEqual(playerId);
   });
 
   it('can be a bye', () => {
     const bye = new Bye();
+
     expect(bye.getPlayerId()).toEqual("BYE");
   });
 
