@@ -25,5 +25,9 @@ const pushToObjectOfArrays = (object, key, value) => {
 
 
 module.exports = {
+  incrementObjectOfNumbers,
+  lowestFirst,
+  peek,
+  pushToObjectOfArrays,
   randomElementFromArray,
 }

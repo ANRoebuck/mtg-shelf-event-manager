@@ -19,7 +19,7 @@ class Round {
 
   getRoundNumber = () => this.roundNumber;
 
-  isComplete = () => this.getPairings().every(p => p.isComplete());
+  isComplete = () => this.getPairings().every(match => match.isComplete());
 
   getPlayers = () => this.players;
 
@@ -56,9 +56,9 @@ class Round {
       //    --> pair that
       //
       let aPlayerWithOnlyOneViablePairing =
-        this.findPlayerWithOnlyOneValidPairing(this.getNumberOfPossibleParingsByPlayer(rankedPlayers));
+        this.findPlayerWithOnlyOneValidPairing(this.getNumberOfPossibleParingsByPlayer(candidatePairings));
       if (aPlayerWithOnlyOneViablePairing) {
-        let [a, b] = candidatePairings.filter(cp => cp.contains(aPlayerWithOnlyOneViablePairing));
+        let [a, b] = candidatePairings.filter(cp => cp.includes(aPlayerWithOnlyOneViablePairing));
         playerA = a;
         playerB = b;
       }
@@ -69,7 +69,10 @@ class Round {
         const candidatePairingsByWeight = candidatePairings.reduce((tally, pairing) =>
           pushToObjectOfArrays(tally, this.getWeightForPairing(highestPoints, pairing), pairing), {})
 
-        const highestWeightedPairings = Object.entries(candidatePairingsByWeight).sort(lowestFirst)[0];
+        // Object.entries will return an array of two-element arrays, each of which is a key:value pair
+        // Select first element to get the key:value pair array with the lowest key
+        // Select the second element to get the value
+        const highestWeightedPairings = Object.entries(candidatePairingsByWeight).sort(lowestFirst)[0][1];
         let [a, b]  = randomElementFromArray(highestWeightedPairings);
         playerA = a;
         playerB = b;
@@ -77,8 +80,10 @@ class Round {
 
 
       // finally
+      // pair players
+      this.createPairing(playerA, playerB);
       // remove paired players from graph
-      candidatePairings = candidatePairings.filter(cp => !cp.contains(playerA) && !cp.contains(playerB));
+      candidatePairings = candidatePairings.filter(cp => !cp.includes(playerA) && !cp.includes(playerB));
     }
 
     // all players should now be paired
