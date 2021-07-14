@@ -18,8 +18,6 @@ describe('player', () => {
     const players = somePlayers(16);
     const round = new Round(roundNumber, players);
 
-    console.log(round.getPairings());
-
     expect(round.isComplete()).toBe(false);
 
     round.getPairings().forEach(pairing => pairing.recordDraw());

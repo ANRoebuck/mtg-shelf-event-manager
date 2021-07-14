@@ -25,9 +25,11 @@ class Round {
 
   getRankedPlayers = () => this.getPlayers().sort((a, b) => a.getPoints() - b.getPoints());
 
+  createPairing = (player1, player2) => this.pairings.push(new Match(player1, player2));
+
   getPairings = () => this.pairings;
 
-  createPairing = (player1, player2) => this.pairings.push(new Match(player1, player2));
+  getPairingForPlayerId = (playerId) => this.getPairings().filter(pairing => pairing.featuresPlayer(playerId));
 
 
   // THE BUSINESS

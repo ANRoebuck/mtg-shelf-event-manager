@@ -19,13 +19,15 @@ class Match {
     if (this.player2 instanceof Bye) {
       this.recordWinner(this.player1);
     }
-  }
+  };
 
   isComplete = () => this.complete;
 
   getResult = () => this.result;
 
   getPlayers = () => [this.player1, this.player2];
+
+  featuresPlayer = (player) => this.getPlayers().includes(player);
 
   opponentOf = (player) => {
     if (this.player1.getPlayerId() === player.getPlayerId()) {
@@ -35,14 +37,16 @@ class Match {
       return this.player1;
     }
     return null;
-  }
+  };
+
+  recordResult = (playerId, result) =>  result === "DRAW" ? this.recordDraw() : this.recordWinner(playerId);
 
   recordWinner = (player) => {
     if(this.getPlayers().includes(player)) {
       this.result = player.getPlayerId();
       this.complete = true;
     }
-  }
+  };
 
   recordDraw = () => {
     this.result = "DRAW";

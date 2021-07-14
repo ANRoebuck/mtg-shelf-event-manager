@@ -1,11 +1,5 @@
-const { articlesRouter } = require('./articlesRouter');
-const { commentsRouter } = require('./commentsRouter');
-const { topicsRouter } = require('./topicsRouter');
-const { usersRouter } = require('./usersRouter');
+const {eventManagerRouter} = require('./eventManagerRouter');
 
 module.exports = {
-    articlesRouter,
-    commentsRouter,
-    topicsRouter,
-    usersRouter
+    eventManagerRouter,
 };

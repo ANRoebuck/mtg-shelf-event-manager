@@ -1,14 +1,8 @@
-const express = require("express");
+const express = require('express');
 const apiRouter = express.Router();
 const endPoints = require('../endpoints.json');
 const { errHandle405 } = require('../errHandle');
-const {
-    articlesRouter,
-    commentsRouter,
-    topicsRouter,
-    usersRouter
-} = require('../routers')
-
+const { eventManagerRouter } = require('../routers')
 
 
 
@@ -17,14 +11,7 @@ apiRouter.route('/')
     .all(errHandle405)
 
 
-
-apiRouter.use('/articles', articlesRouter);
-apiRouter.use('/comments', commentsRouter);
-apiRouter.use('/topics', topicsRouter);
-apiRouter.use('/users', usersRouter);
-
-
-
+apiRouter.use('/eventManager', eventManagerRouter);
 
 
 module.exports = { apiRouter };

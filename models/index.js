@@ -1,20 +1,15 @@
-const { connection } = require('../connection');
-
-const { getTopics } = require('./topicsModels');
-const { getUserById } = require('./usersModels');
-const { getArticles,
-    patchArticleById,
-    postCommentByArticleId,
-    getCommentsByArticleId } = require('./articlesModels');
-const { patchComment, deleteComment } = require('./commentsModels');
+const {
+    currentRound,
+    eventExists,
+    getPairingsForRound,
+    newEvent,
+    reportResult,
+} = require('./eventManagerModels');
 
 module.exports = {
-    getTopics,
-    getUserById,
-    getArticles,
-    patchArticleById,
-    postCommentByArticleId,
-    getCommentsByArticleId,
-    patchComment,
-    deleteComment
+    currentRound,
+    eventExists,
+    getPairingsForRound,
+    newEvent,
+    reportResult,
 };

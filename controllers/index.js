@@ -1,20 +1,9 @@
-const { sendTopics } = require('./topicsControllers');
-const { sendUserById } = require('./usersControllers');
-const { sendArticles,
-    sendArticleById,
-    updateArticleById,
-    addCommentByArticleId,
-    sendCommentsByArticleId } = require('./articlesControllers');
-const { updateComment, removeComment } = require('./commentsControllers');
+const {
+    eventExists,
+    newEvent,
+} = require('./eventManagerControllers');
 
 module.exports = {
-    sendTopics,
-    sendUserById,
-    sendArticles,
-    sendArticleById,
-    updateArticleById,
-    addCommentByArticleId,
-    sendCommentsByArticleId,
-    updateComment,
-    removeComment
+    eventExists,
+    newEvent,
 };
