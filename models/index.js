@@ -1,5 +1,5 @@
 const {
-    currentRound,
+    currentRoundNumber,
     eventExists,
     getPairingsForRound,
     newEvent,
@@ -7,7 +7,7 @@ const {
 } = require('./eventManagerModels');
 
 module.exports = {
-    currentRound,
+    currentRoundNumber,
     eventExists,
     getPairingsForRound,
     newEvent,

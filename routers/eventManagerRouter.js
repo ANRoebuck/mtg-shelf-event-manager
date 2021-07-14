@@ -1,7 +1,11 @@
 const express = require('express');
 const eventManagerRouter = express.Router();
 const {
-    newEvent,
+  currentRoundNumber,
+  eventExists,
+  getPairingsForRound,
+  newEvent,
+  reportResult,
  } = require('../controllers');
 const { errHandle405 } = require('../errHandle');
 

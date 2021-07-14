@@ -26,10 +26,12 @@ class Event {
 
   currentRound = () => {
     if (this.rounds.length === 0) {
-      return 0;
+      return null;
     }
     return this.rounds[this.rounds.length -1];
   };
+
+  currentRoundNumber = () => this.rounds.length;
 
   currentRoundIsComplete = () => this.currentRound() && this.currentRound().isComplete();
 
@@ -47,10 +49,9 @@ class Event {
     console.log('Cant create new round before previous is complete.');
   };
 
-  getPairingsForRound = (roundNumber) => this.rounds[roundNumber - 1];
+  getPairingsForRound = (roundNumber) => this.rounds[roundNumber - 1].getPairings();
 
   reportResult = (playerId, result) => this.currentRound().getPairingForPlayerId(playerId).recordResult(result);
-
 
 }
 

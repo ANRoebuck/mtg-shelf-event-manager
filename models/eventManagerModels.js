@@ -14,8 +14,8 @@ exports.eventExists = ({ eventId }) => {
   return manager.eventExists(eventId);
 };
 
-exports.currentRound = ({ eventId }) => {
-  return manager.getCurrentRound(eventId);
+exports.currentRoundNumber = ({ eventId }) => {
+  return manager.currentRoundNumber(eventId);
 };
 
 exports.getPairingsForRound = ({ eventId, roundNumber }) => {

@@ -1,5 +1,5 @@
 const {
-  currentRound,
+  currentRoundNumber,
   eventExists,
   getPairingsForRound,
   newEvent,
@@ -16,14 +16,14 @@ exports.newEvent = (req, res, next) => {
 
 exports.eventExists = (req, res, next) => {
   eventExists({...req.params, ...req.query})
-    .then(eventId => {
-      res.status(200).send({ eventId });
+    .then(eventExists => {
+      res.status(200).send({ eventExists });
     })
     .catch(next);
 };
 
-exports.currentRound = (req, res, next) => {
-  currentRound({...req.params, ...req.query})
+exports.currentRoundNumber = (req, res, next) => {
+  currentRoundNumber({...req.params, ...req.query})
     .then(eventId => {
       res.status(200).send({ eventId });
     })
