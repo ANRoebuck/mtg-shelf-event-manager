@@ -1,4 +1,4 @@
-const {eventManagerRouter} = require('./eventManagerRouter');
+const { eventManagerRouter } = require('./eventManagerRouter');
 
 module.exports = {
     eventManagerRouter,

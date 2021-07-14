@@ -11,10 +11,12 @@ const { Bye } = require('./Player');
 class Round {
 
   constructor(roundNumber, players) {
+    console.log(`Creating round ${roundNumber}.`);
     this.roundNumber = roundNumber;
     this.players = players;
     this.pairings = [];
     this.pairRound();
+    console.log(`Round ${roundNumber} created.`);
   }
 
   getRoundNumber = () => this.roundNumber;
@@ -34,6 +36,8 @@ class Round {
 
   // THE BUSINESS
   pairRound = () => {
+
+    console.log('Pairing round');
 
     let rankedPlayers = [...this.getRankedPlayers()];
     const highestPoints = peek(rankedPlayers).getPoints();

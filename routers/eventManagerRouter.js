@@ -4,26 +4,38 @@ const {
   currentRoundNumber,
   eventExists,
   getPairingsForRound,
+  getStandings,
   newEvent,
   reportResult,
  } = require('../controllers');
 const { errHandle405 } = require('../errHandle');
 
 
+eventManagerRouter.route('/')
+  .get((req, res, next) => res.send('ping'))
 
-eventManagerRouter.route('/new')
+eventManagerRouter.route('/new/:numberOfPlayers')
     .get(newEvent)
     .all(errHandle405)
 
-eventManagerRouter.route('/:event_id')
-    .get(sendArticleById)
-    .patch(updateArticleById)
+eventManagerRouter.route('/eventExists/:event_id')
+    .get(eventExists)
     .all(errHandle405)
 
+eventManagerRouter.route('/currentRound/:event_id')
+    .get(currentRoundNumber)
+    .all(errHandle405)
 
-eventManagerRouter.route('/:article_id/comments')
-    .get(sendCommentsByArticleId)
-    .post(addCommentByArticleId)
+eventManagerRouter.route('/pairings/:event_id')
+    .get(getPairingsForRound)
+    .all(errHandle405)
+
+eventManagerRouter.route('/result/:event_id/:result')
+    .post(reportResult)
+    .all(errHandle405)
+
+eventManagerRouter.route('/standings/:event_id')
+    .get(getStandings)
     .all(errHandle405)
 
 

@@ -4,12 +4,14 @@ const {Round} = require('./Round');
 class Event {
 
   constructor(eventId, numberOfPlayers) {
+    console.log('Creating Event.');
     this.eventId = eventId;
     this.noOfRounds = numberOfRoundsForPlayers(numberOfPlayers);
     this.players = [];
     this.addPlayers(numberOfPlayers);
     this.rounds = [];
     this.createRound();
+    console.log('Event created.');
   }
 
   getEventId = () => this.eventId;
@@ -36,12 +38,13 @@ class Event {
   currentRoundIsComplete = () => this.currentRound() && this.currentRound().isComplete();
 
   createRound = () => {
-    if(this.currentRound().getRoundNumber() === this.noOfRounds) {
-      console.log("Cant create new round. Max number of rounds reached.");
+    if(this.currentRound() && this.currentRound().getRoundNumber() === this.noOfRounds) {
+      console.log('Cant create new round. Max number of rounds reached.');
       return;
     }
 
     if(this.currentRound() === null || this.currentRoundIsComplete()) {
+      console.log('Creating new round.');
       this.rounds.push(new Round(this.rounds.length + 1, this.getPlayers()));
       return;
     }
@@ -56,27 +59,21 @@ class Event {
 }
 
 const numberOfRoundsForPlayers = (playerCount) => {
-  if (playerCount < 9) return 3;
+  if (playerCount <= 8) return 3;
 
-  if (playerCount < 17) return 4;
+  if (playerCount <= 16) return 4;
 
-  if (playerCount < 33) return 5;
+  if (playerCount <= 32) return 5;
 
-  if (playerCount < 65) return 6;
+  if (playerCount <= 64) return 6;
 
-  if (playerCount < 129) return 7;
+  if (playerCount <= 128) return 7;
 
-  if (playerCount < 213) return 8;
+  if (playerCount <= 226) return 8;
 
-  if (playerCount < 385) return 9;
+  if (playerCount <= 409) return 9;
 
-  if (playerCount < 673) return 10;
-
-  if (playerCount < 1249) return 11;
-
-  if (playerCount < 2273) return 12;
-
-  return 13;
+  return 10;
 }
 
 module.exports = {

@@ -1,13 +1,15 @@
-import express from 'express';
+const express = require("express");
 const app = express();
-import { apiRouter } from './routers/apiRouter';
-import { errHandleCustom, errHandleInvalidEnpoint, errHandle400 } from './errHandle';
-import cors from 'cors';
+const { apiRouter } = require("./routers/apiRouter");
+const { errHandleCustom, errHandleInvalidEnpoint, errHandle400 } = require('./errHandle');
+const cors = require('cors');
 
 
 app.use(express.json());
-app.use(cors);
+app.use(cors());
 
+apiRouter.route('/')
+  .get((req, res, next) => res.send('ping'))
 
 app.use('/api', apiRouter);
 
@@ -16,5 +18,4 @@ app.use(errHandle400);
 app.use(errHandleCustom);
 
 
-
-export default app;
+module.exports = { app };

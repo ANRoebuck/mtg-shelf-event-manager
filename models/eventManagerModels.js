@@ -1,27 +1,35 @@
 const { EventManager } = require('../components/EventManager');
+const { v4 } = require('uuid');
+
 
 const manager = new EventManager();
 
-const aNewEventId = () => 5;
 
-exports.newEvent = ({ numberOfPlayers, alexaId = null }) => {
+const aNewEventId = () => v4();
+
+exports.newEvent = async ({ numberOfPlayers, alexaId = null }) => {
   const id = alexaId || aNewEventId();
   const eventCreated = manager.createEvent(id, numberOfPlayers);
-  return eventCreated && id;
+  if (eventCreated) return id;
+  return false;
 };
 
-exports.eventExists = ({ eventId }) => {
+exports.eventExists = async ({ eventId }) => {
   return manager.eventExists(eventId);
 };
 
-exports.currentRoundNumber = ({ eventId }) => {
+exports.currentRoundNumber = async ({ eventId }) => {
   return manager.currentRoundNumber(eventId);
 };
 
-exports.getPairingsForRound = ({ eventId, roundNumber }) => {
+exports.getPairingsForRound = async ({ eventId, roundNumber }) => {
   return manager.getPairingsForRound(eventId, roundNumber);
 };
 
-exports.reportResult = ({ eventId, playerId, result }) => {
+exports.getStandings = async ({ eventId, roundNumber }) => {
+  return manager.getStandings(eventId, roundNumber);
+};
+
+exports.reportResult = async ({ eventId, playerId, result }) => {
   return manager.reportResult(eventId, playerId, result)
 };
