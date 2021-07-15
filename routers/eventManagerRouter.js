@@ -18,23 +18,23 @@ eventManagerRouter.route('/new/:numberOfPlayers')
     .get(newEvent)
     .all(errHandle405)
 
-eventManagerRouter.route('/eventExists/:event_id')
+eventManagerRouter.route('/eventExists/:eventId')
     .get(eventExists)
     .all(errHandle405)
 
-eventManagerRouter.route('/currentRound/:event_id')
+eventManagerRouter.route('/currentRound/:eventId')
     .get(currentRoundNumber)
     .all(errHandle405)
 
-eventManagerRouter.route('/pairings/:event_id')
+eventManagerRouter.route('/pairings/:eventId/:roundNumber')
     .get(getPairingsForRound)
     .all(errHandle405)
 
-eventManagerRouter.route('/result/:event_id/:result')
+eventManagerRouter.route('/result/:eventId/:playerId/:result')
     .post(reportResult)
     .all(errHandle405)
 
-eventManagerRouter.route('/standings/:event_id')
+eventManagerRouter.route('/standings/:eventId')
     .get(getStandings)
     .all(errHandle405)
 

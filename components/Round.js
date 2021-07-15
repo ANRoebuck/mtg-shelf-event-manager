@@ -1,8 +1,11 @@
-const { lowestFirst,
+const {
+  highestFirst,
   incrementObjectOfNumbers,
+  lowestFirst,
   peek,
   pushToObjectOfArrays,
-  randomElementFromArray
+  randomElementFromArray,
+  shuffleArray,
 } = require("./utils");
 const { Match } = require('./Match');
 const { Bye } = require('./Player');
@@ -25,13 +28,16 @@ class Round {
 
   getPlayers = () => this.players;
 
-  getRankedPlayers = () => this.getPlayers().sort((a, b) => a.getPoints() - b.getPoints());
+  // ranked players are randomised first and then sorted
+  // this means order *within* a points bracket is random (important for allocation of byes)
+  getRankedPlayers = () => shuffleArray(this.getPlayers()).sort((a, b) => a.getPoints() - b.getPoints());
 
   createPairing = (player1, player2) => this.pairings.push(new Match(player1, player2));
 
   getPairings = () => this.pairings;
 
-  getPairingForPlayerId = (playerId) => this.getPairings().filter(pairing => pairing.featuresPlayer(playerId));
+  getPairingForPlayerId = (playerId) =>
+    this.getPairings().filter(pairing => pairing.featuresPlayer(playerId))[0] || null;
 
 
   // THE BUSINESS
@@ -73,12 +79,16 @@ class Round {
       // of the highest weighted pairings, pair one at random
       else {
         const candidatePairingsByWeight = candidatePairings.reduce((tally, pairing) =>
-          pushToObjectOfArrays(tally, this.getWeightForPairing(highestPoints, pairing), pairing), {})
+          pushToObjectOfArrays(tally, this.getWeightForPairing(highestPoints, pairing), pairing), {});
+
 
         // Object.entries will return an array of two-element arrays, each of which is a key:value pair
-        // Select first element to get the key:value pair array with the lowest key
+        // Sort by keys
+        // Select first element to get the key:value pair array with the highest key
         // Select the second element to get the value
-        const highestWeightedPairings = Object.entries(candidatePairingsByWeight).sort(lowestFirst)[0][1];
+        const highestWeightedPairings = Object.entries(candidatePairingsByWeight)
+          .sort((a,b) => highestFirst(a[0], b[0]))[0][1];
+
         let [a, b]  = randomElementFromArray(highestWeightedPairings);
         playerA = a;
         playerB = b;
@@ -96,28 +106,28 @@ class Round {
   }
 
   assignBye = (rankedPlayers) => {
+    console.log('Assigning BYE');
+    let playerToReceiveBye;
     rankedPlayers.some((p, i) => {
       if (!p.hasHadBye()) {
-        let playerToReceiveBye = rankedPlayers.splice(i, 1)[0];
+        playerToReceiveBye = p;
         this.createPairing(playerToReceiveBye, new Bye());
         return true;
       }
       return false;
     })
-    return rankedPlayers;
+    return rankedPlayers.filter(p => p.getPlayerId() != playerToReceiveBye.getPlayerId());
   }
 
 
   // returns an array of two-element arrays of unique pairings of players
   // ie if [a, b] then no [b, a]
-  getPossiblePairings = () => {
-    let players = [...this.getPlayers()];
-
+  getPossiblePairings = (rankedPlayers) => {
     let possiblePairings = [];
 
-    while (players.length > 0) {
-      let player = players.pop();
-      players.forEach(opponent => possiblePairings.push([player, opponent]));
+    while (rankedPlayers.length > 0) {
+      let player = rankedPlayers.pop();
+      rankedPlayers.forEach(opponent => possiblePairings.push([player, opponent]));
     }
 
     return possiblePairings.filter(([player, opponent]) => !opponent.previousOpponentOf(player));

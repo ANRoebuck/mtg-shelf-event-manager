@@ -27,6 +27,8 @@ class EventManager {
 
   getCurrentRound = (eventId) => this.eventExists(eventId) && this.getEventById(eventId).currentRound();
 
+  getCurrentRoundNumber = (eventId) => this.eventExists(eventId) && this.getEventById(eventId).currentRoundNumber();
+
   getPlayers = (eventId) => {
     if (this.eventExists(eventId)) {
       return this.getEventById(eventId).getPlayers();
@@ -41,12 +43,25 @@ class EventManager {
 
   getPairingsForRound = (eventId, roundNumber) => {
     if (this.eventExists(eventId)) {
+      console.log(`Getting round ${roundNumber} pairings for event ${eventId}`);
       return this.getEventById(eventId).getPairingsForRound(roundNumber);
     }
+    console.log(`Cant get pairings. Event ${eventId} does not exist.`);
+    return false;
   };
+
+  getSerialisablePairingsForRound = (eventId, roundNumber) =>
+    this.getPairingsForRound(eventId, roundNumber)
+      .map(pairing => pairing.getPlayers())
+      .map(([p1, p2]) => [
+        { player: p1.getPlayerId(), points: p1.getPoints() },
+        { player: p2.getPlayerId(), points: p2.getPoints() }]);
+
+
 
   reportResult = (eventId, playerId, result) => {
     if (this.eventExists(eventId)) {
+      console.log('Reporting result.')
       return this.getEventById(eventId).reportResult(playerId, result);
     }
   };

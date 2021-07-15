@@ -14,10 +14,10 @@ class Match {
 
   autoCompleteBye = () => {
     if (this.player1 instanceof Bye) {
-      this.recordWinner(this.player2);
+      this.recordWinner(this.player2.getPlayerId());
     }
     if (this.player2 instanceof Bye) {
-      this.recordWinner(this.player1);
+      this.recordWinner(this.player1.getPlayerId());
     }
   };
 
@@ -27,7 +27,8 @@ class Match {
 
   getPlayers = () => [this.player1, this.player2];
 
-  featuresPlayer = (player) => this.getPlayers().includes(player);
+  // ALLOW TYPE COERCION. '10' must equal 10
+  featuresPlayer = (playerId) => this.player1.getPlayerId() == playerId || this.player2.getPlayerId() == playerId;
 
   opponentOf = (player) => {
     if (this.player1.getPlayerId() === player.getPlayerId()) {
@@ -39,16 +40,20 @@ class Match {
     return null;
   };
 
-  recordResult = (playerId, result) =>  result === "DRAW" ? this.recordDraw() : this.recordWinner(playerId);
+  recordResult = (playerId, result) =>  result === "DRAW" ? this.recordDraw() : this.recordWinner(result);
 
-  recordWinner = (player) => {
-    if(this.getPlayers().includes(player)) {
-      this.result = player.getPlayerId();
+  recordWinner = (result) => {
+    if(this.featuresPlayer(result)) {
+      console.log(`Recording winner ${result}`);
+      this.result = result;
       this.complete = true;
+    } else {
+      console.log(`Cant record result. Match does not include player ${result}`)
     }
   };
 
   recordDraw = () => {
+    console.log('Recording DRAW');
     this.result = "DRAW";
     this.complete = true;
   };

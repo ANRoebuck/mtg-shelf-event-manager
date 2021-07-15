@@ -19,11 +19,11 @@ exports.eventExists = async ({ eventId }) => {
 };
 
 exports.currentRoundNumber = async ({ eventId }) => {
-  return manager.currentRoundNumber(eventId);
+  return manager.getCurrentRoundNumber(eventId);
 };
 
 exports.getPairingsForRound = async ({ eventId, roundNumber }) => {
-  return manager.getPairingsForRound(eventId, roundNumber);
+  return manager.getSerialisablePairingsForRound(eventId, roundNumber);
 };
 
 exports.getStandings = async ({ eventId, roundNumber }) => {

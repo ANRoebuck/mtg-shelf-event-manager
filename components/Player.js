@@ -12,11 +12,13 @@ class Player {
 
   getPlayerId = () => this.playerId;
 
-  getPoints = () => this.matchesPlayed.reduce((tally, match) => {
-    if (match.getResult() === this.getPlayerId()) return tally + 3;
-    if (match.getResult() === DRAW) return tally + 1;
-    return tally;
-  }, 0);
+  getPoints = () =>  this.matchesPlayed.reduce((tally, match) => {
+      // allow type coercion
+      if (match.getResult() == this.getPlayerId()) return tally + 3;
+      if (match.getResult() == DRAW) return tally + 1;
+      return tally;
+    }, 0);
+
 
   addMatch = (match) => this.matchesPlayed.push(match);
 

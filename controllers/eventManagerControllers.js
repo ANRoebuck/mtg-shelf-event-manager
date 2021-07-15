@@ -26,16 +26,17 @@ exports.eventExists = (req, res, next) => {
 
 exports.currentRoundNumber = (req, res, next) => {
   currentRoundNumber({...req.params, ...req.query})
-    .then(eventId => {
-      res.status(200).send({eventId});
+    .then(currentRound => {
+      res.status(200).send({currentRound});
     })
     .catch(next);
 };
 
 exports.getPairingsForRound = (req, res, next) => {
+  console.log('Get pairings request.');
   getPairingsForRound({...req.params, ...req.query})
-    .then(eventId => {
-      res.status(200).send({eventId});
+    .then(pairings => {
+      res.status(200).send({ pairings });
     })
     .catch(next);
 };
@@ -49,9 +50,10 @@ exports.getStandings = (req, res, next) => {
 };
 
 exports.reportResult = (req, res, next) => {
+  console.log('Report result request.');
   reportResult({...req.params, ...req.query})
-    .then(eventId => {
-      res.status(200).send({eventId});
+    .then(() => {
+      res.status(200).send("OK");
     })
     .catch(next);
 };
